@@ -1,0 +1,43 @@
+/*
+TextScroller
+Written by bitty45
+Version 1.0.0
+Makes text scroll in a specified area.
+
+To use it, you call ScrollText() to print out text that will scroll.
+    You can call ScrollText() as many times as you want.
+    You must call UpdateScroll() once.
+Example on how to use:
+
+var ScrollTxt=import UI/TextScroller
+?screen.x = 0
+  ScrollTxt.ScrollText(＂ Loc: ＂,loc,0,screen_h-3,50)
+:?foe
+  >`0,@screen_h-4@, Foe Name: @foe.name@
+  ScrollTxt.ScrollText(＂ Foe:＂,foe,0,screen_h-3,35)
+ScrollTxt.UpdateScroll()
+*/
+
+var INTERVAL = 2
+var scrollCounter = 0
+
+//updates the scrollCounter
+//without this, the text won't scroll.
+func UpdateScroll()
+  ?time%INTERVAL = 0
+    scrollCounter++
+
+//constantText is some text that won't scroll.
+//textSource is the text that will scroll.
+//x is x coordinate
+//y is y coordinate
+//w is width
+func ScrollText(constantText, textSource, x, y, w)
+  var text = textSource + " "
+  var textToPrint = ""
+  for i = 0..w
+    var index = (i+scrollCounter)%(string.Size(text))
+    var character = string.Sub(text, index, 1)
+    textToPrint += character
+  >`@x@,@y@,@textToPrint@
+  >`@x@,@y@,@constantText@
